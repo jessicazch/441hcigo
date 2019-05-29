@@ -122,7 +122,7 @@ void loop() {
     lcd.setCursor(3,3);
     lcd.print("Open!");
 
-    mp3.play(1, 20);     // Play the sound!
+    mp3.play(1, 30);     // Play the sound!
     delay(15);    // wait .15 seconds
 
     lcd.clear();
