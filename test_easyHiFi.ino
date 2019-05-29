@@ -45,27 +45,45 @@ void setup() {
   // lcd display
   lcd.init();
   lcd.backlight();
+
+  lcd.setCursor(5,0);
+  lcd.print("WELCOME");
+  lcd.setCursor(5,1);
+  lcd.print("TO OUR");
+  lcd.setCursor(5,2);
+  lcd.print("MYSTERY BOX");
   
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  servo.write(0);
-  for (pos = 90; pos < 180; pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    Serial.println("test sweeping...");
-    lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
-    lcd.print("test sweeping...");
-    servo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-//  for (pos = 180; pos >= 20; pos -= 1) { // goes from 180 degrees to 0 degrees
+  servo.write(179);
+//  for (pos = 180; pos > 70; pos -= 1) { // goes from 0 degrees to 180 degrees
+//    // in steps of 1 degree
+//    Serial.println("test sweeping open...");
+//    lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
+//    lcd.print("(test sweeping...)");
 //    servo.write(pos);              // tell servo to go to position in variable 'pos'
-//    Serial.println("sweeping 2");
-//    delay(15);                       // waits 15ms for the servo to reach the position
+//    delay(10);                       // waits 15ms for the servo to reach the position
+//  }
+//  for (pos = 70; pos < 180; pos += 1) { // goes from 0 degrees to 180 degrees
+//    // in steps of 1 degree
+//    Serial.println("test sweeping close...");
+//    lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
+//    lcd.print("(test sweeping...)");
+//    servo.write(pos);              // tell servo to go to position in variable 'pos'
+//    delay(10);                       // waits 15ms for the servo to reach the position
 //  }
 }
 
 void loop() {
-  delay(100);   
+  delay(100);
+  lcd.clear();
+  lcd.setCursor(3,0);
+  lcd.print("WELCOME");
+  lcd.setCursor(3,1);
+  lcd.print("TO OUR");
+  lcd.setCursor(3,2);
+  lcd.print("MYSTERY BOX");
+  delay(15);
 
   unsigned long startTime = millis();  // takes the time before the loop on the library begins
 
@@ -76,7 +94,7 @@ void loop() {
     yesman = true;
 //    randNum = 1;
     randNum = random(0, 2);
-    lcd.setCursor(3,3);
+    lcd.setCursor(5,3);
     lcd.print(randNum);
     delay(50);
   } else {
@@ -94,9 +112,9 @@ void loop() {
   Serial.println("random num = ");
 
   if (yesman && randNum == 1) {
-    for (pos = 180; pos > 80; pos -= 1) {
+    for (pos = 180; pos > 60; pos -= 1) {
       servo.write(pos);              // tell servo to go to position in variable 'pos'
-      delay(10);                     // waits 15ms for the servo to reach the position
+      delay(5);                     // waits 15ms for the servo to reach the position
     }
 //    servo.write(80); // open
     delay(15);
@@ -107,6 +125,7 @@ void loop() {
     mp3.play(1, 20);     // Play the sound!
     delay(15);    // wait .15 seconds
 
+    lcd.clear();
 //    unsigned long startTime = millis();
     lcd.setCursor(3,0); // Sets the location at which subsequent text written to the LCD will be displayed
     lcd.print("You are lucky!"); // Prints string "Distance" on the LCD
@@ -117,12 +136,16 @@ void loop() {
     lcd.print("Grab a snack! "); 
     lcd.clear();
     
-    for (int i = 3; i > 0; i--) {
+    for (int i = 15; i > 0; i--) {
       delay(500);
       lcd.setCursor(2,0); // Sets the location at which subsequent text written to the LCD will be displayed
       lcd.print("Count Down: ");
       lcd.print(i, DEC);
       delay(1000);
+      int dis2=SharpIR.distance();  // this returns the distance to the object you're measuring
+      if (dis2 > 100) {
+        break;
+      }
       lcd.clear();
     }
     lcd.setCursor(2,0);
@@ -132,9 +155,9 @@ void loop() {
     lcd.setCursor(2,2);
     lcd.print("(closing)");
 //    servo.write(179);
-    for (pos = 80; pos < 180; pos += 1) {
+    for (pos = 60; pos < 180; pos += 1) {
       servo.write(pos);              // tell servo to go to position in variable 'pos'
-      delay(10);                     // waits 15ms for the servo to reach the position
+      delay(5);                     // waits 15ms for the servo to reach the position
     }
     delay(3000);
     lcd.clear();
