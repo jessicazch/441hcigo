@@ -20,7 +20,7 @@ int pos = 0;
 boolean yesman = false;
 long randNum;
 
-LiquidCrystal_I2C lcd(0x27,16,3);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+LiquidCrystal_I2C lcd(0x27,16,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 const int trigPin = 9;
 const int echoPin = 10;
@@ -47,42 +47,26 @@ void setup() {
   lcd.backlight();
 
   lcd.setCursor(5,0);
-  lcd.print("WELCOME");
-  lcd.setCursor(5,1);
-  lcd.print("TO OUR");
-  lcd.setCursor(5,2);
-  lcd.print("MYSTERY BOX");
+  lcd.print("WELCOME TO");
+  lcd.setCursor(3,1);
+  lcd.print("SNACKOVERFLOW");
+  lcd.setCursor(7,2);
+  lcd.print("TO-GO");
   
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   servo.write(179);
-//  for (pos = 180; pos > 70; pos -= 1) { // goes from 0 degrees to 180 degrees
-//    // in steps of 1 degree
-//    Serial.println("test sweeping open...");
-//    lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
-//    lcd.print("(test sweeping...)");
-//    servo.write(pos);              // tell servo to go to position in variable 'pos'
-//    delay(10);                       // waits 15ms for the servo to reach the position
-//  }
-//  for (pos = 70; pos < 180; pos += 1) { // goes from 0 degrees to 180 degrees
-//    // in steps of 1 degree
-//    Serial.println("test sweeping close...");
-//    lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD will be displayed
-//    lcd.print("(test sweeping...)");
-//    servo.write(pos);              // tell servo to go to position in variable 'pos'
-//    delay(10);                       // waits 15ms for the servo to reach the position
-//  }
 }
 
 void loop() {
   delay(100);
   lcd.clear();
-  lcd.setCursor(3,0);
-  lcd.print("WELCOME");
+  lcd.setCursor(5,0);
+  lcd.print("WELCOME TO");
   lcd.setCursor(3,1);
-  lcd.print("TO OUR");
-  lcd.setCursor(3,2);
-  lcd.print("MYSTERY BOX");
+  lcd.print("SNACKOVERFLOW");
+  lcd.setCursor(7,2);
+  lcd.print("TO-GO");
   delay(15);
 
   unsigned long startTime = millis();  // takes the time before the loop on the library begins
@@ -112,21 +96,17 @@ void loop() {
   Serial.println("random num = ");
 
   if (yesman && randNum == 1) {
-    for (pos = 180; pos > 60; pos -= 1) {
+    for (pos = 180; pos > 70; pos -= 1) {
       servo.write(pos);              // tell servo to go to position in variable 'pos'
-      delay(5);                     // waits 15ms for the servo to reach the position
+      delay(8);                     // waits 15ms for the servo to reach the position
     }
 //    servo.write(80); // open
     delay(15);
-    
-    lcd.setCursor(3,3);
-    lcd.print("Open!");
 
     mp3.play(1, 30);     // Play the sound!
     delay(15);    // wait .15 seconds
 
     lcd.clear();
-//    unsigned long startTime = millis();
     lcd.setCursor(3,0); // Sets the location at which subsequent text written to the LCD will be displayed
     lcd.print("You are lucky!"); // Prints string "Distance" on the LCD
     delay(3000);
