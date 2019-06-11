@@ -79,6 +79,8 @@ void loop() {
 //    randNum = 1;
     randNum = random(0, 2);
     lcd.setCursor(5,3);
+    lcd.print(dis1);
+    lcd.setCursor(15,3);
     lcd.print(randNum);
     delay(50);
   } else {
@@ -103,7 +105,7 @@ void loop() {
 //    servo.write(80); // open
     delay(15);
 
-    mp3.play(1, 30);     // Play the sound!
+    mp3.play(1, 5);     // Play the sound!
     delay(15);    // wait .15 seconds
 
     lcd.clear();
@@ -123,7 +125,7 @@ void loop() {
       lcd.print(i, DEC);
       delay(1000);
       int dis2=SharpIR.distance();  // this returns the distance to the object you're measuring
-      if (dis2 > 100) {
+      if (dis2 > 50) {
         break;
       }
       lcd.clear();

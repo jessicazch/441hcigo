@@ -69,27 +69,33 @@ void loop() {
   lcd.print("TO-GO");
   delay(15);
 
-  unsigned long startTime = millis();  // takes the time before the loop on the library begins
+//  unsigned long startTime = millis();  // takes the time before the loop on the library begins
 
-  int dis1=SharpIR.distance();  // this returns the distance to the object you're measuring
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
 
-  if (dis1 <= 50 && dis1 > 0 && lastdis > 50) {
+  long duration = pulseIn(echoPin, HIGH);
+  int dis1 = duration*0.034/2; 
+  
+  if (dis1 <= 300 && dis1 > 0 && lastdis > 300) {
     counter ++;
     unsigned long calcTime=millis()-startTime;
     if (calcTime <= 3600000 * 2) {
-      randNum = random(0, 100);
+      randNum = random(0, 200);
     } else if (calcTime <= 3600000 * 4) {
-      randNum = random(0, 50);
+      randNum = random(0, 100);
     } else if (calcTime <= 3600000 * 6) {
+      randNum = random(0, 50);
+    } else if (calcTime <= 3600000 * 8) {
       randNum = random(0, 25);
     } else {
       randNum = random(0, 10);
     }
     yesman = true;
-//    randNum = 1;
-//    randNum = random(0, 2);
-    lcd.setCursor(5,3);
-    lcd.print(randNum);
     delay(50);
   } else {
     yesman = false;
@@ -98,15 +104,12 @@ void loop() {
   lastdis = dis1;
   Serial.print(dis1);
   Serial.println("  distance"); 
-
-  Serial.print(counter);
-  Serial.println("  passing by");  // returns it to the serial monitor
-
-  Serial.print(randNum);
-  Serial.println("random num = ");
+  
+  Serial.print("random num = ");
+  Serial.println(randNum);
 
   if (yesman && randNum == 1) {
-    for (pos = 180; pos > 70; pos -= 1) {
+    for (pos = 179; pos > 65; pos -= 1) {
       servo.write(pos);              // tell servo to go to position in variable 'pos'
       delay(8);                     // waits 15ms for the servo to reach the position
     }
@@ -118,32 +121,37 @@ void loop() {
     lcd.clear();
     lcd.setCursor(3,0); // Sets the location at which subsequent text written to the LCD will be displayed
     lcd.print("You are lucky!"); // Prints string "Distance" on the LCD
-    delay(3000);
-    lcd.setCursor(3,0); // Sets the location at which subsequent text written to the LCD will be displayed
+    lcd.setCursor(3,2); // Sets the location at which subsequent text written to the LCD will be displayed
     lcd.print("Come to me! ");
-    lcd.setCursor(3,1);
+    delay(5000);
+    lcd.setCursor(3,0);
     lcd.print("Grab a snack!");
     lcd.setCursor(0,2);
     lcd.print("Share with friends!");
-    lcd.clear();
+//    lcd.clear();
     
-    for (int i = 20; i > 0; i--) {
+    for (int i = 15; i > 0; i--) {
       delay(500);
-      lcd.setCursor(2,0); // Sets the location at which subsequent text written to the LCD will be displayed
+      lcd.setCursor(3,0);
+      lcd.print("Grab a snack!");
+      lcd.setCursor(0,2);
+      lcd.print("Share with friends!");
+      lcd.setCursor(2,3); // Sets the location at which subsequent text written to the LCD will be displayed
       lcd.print("Count Down: ");
       lcd.print(i, DEC);
       delay(1000);
       int dis2=SharpIR.distance();  // this returns the distance to the object you're measuring
-      if (dis2 > 100) {
+      if (dis2 > 50) {
         break;
       }
       lcd.clear();
     }
+    lcd.clear();
     lcd.setCursor(2,0);
     lcd.print("Thank you! ");
     lcd.setCursor(2,2);
     lcd.print("Have a great day!");
-    for (pos = 60; pos < 180; pos += 1) {
+    for (pos = 65; pos < 179; pos += 1) {
       servo.write(pos);              // tell servo to go to position in variable 'pos'
       delay(5);                     // waits 15ms for the servo to reach the position
     }
